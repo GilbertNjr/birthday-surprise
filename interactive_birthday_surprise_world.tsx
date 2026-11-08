@@ -765,7 +765,8 @@ const SmartMediaView: React.FC<{
   mediaType: 'image' | 'video';
   illustrationType?: MemoryItem['illustrationType'];
   className?: string;
-}> = ({ src, title, mediaType, illustrationType = 'smile', className = '' }) => {
+  fit?: 'cover' | 'contain';
+}> = ({ src, title, mediaType, illustrationType = 'smile', className = '', fit = 'cover' }) => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -792,7 +793,7 @@ const SmartMediaView: React.FC<{
         playsInline
         preload="metadata"
         onError={() => setHasError(true)}
-        className={`w-full h-full object-cover ${className}`}
+        className={`w-full h-full ${fit === 'contain' ? 'object-contain' : 'object-cover'} ${className}`}
       />
     );
   }
@@ -803,7 +804,7 @@ const SmartMediaView: React.FC<{
       alt={title}
       loading="lazy"
       onError={() => setHasError(true)}
-      className={`w-full h-full object-cover ${className}`}
+      className={`w-full h-full ${fit === 'contain' ? 'object-contain' : 'object-cover'} ${className}`}
     />
   );
 };
@@ -832,10 +833,10 @@ const FloatingMusicPlayer: React.FC<{
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 flex items-end gap-2">
+    <div className="fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-40 flex items-end gap-2">
       <div
         className={`bg-white/95 backdrop-blur-md border-2 border-[#F4A6B8]/60 rounded-2xl shadow-[0_8px_25px_rgba(244,166,184,0.35)] transition-all duration-300 overflow-hidden ${
-          expanded ? 'p-3.5 w-72' : 'p-2 w-auto'
+          expanded ? 'p-3.5 w-72 max-w-[calc(100vw-1.5rem)]' : 'p-2 w-auto'
         }`}
       >
         <div className="flex items-center gap-2.5">
@@ -979,7 +980,7 @@ const Chapter1Welcome: React.FC<{
 
       {/* Main Tactile Scrapbook Invitation Card */}
       <div
-        className={`relative max-w-lg w-full bg-[#FFFDF9] rounded-[32px] p-7 sm:p-10 border-2 border-[#F4A6B8]/50 shadow-[0_18px_45px_-10px_rgba(244,166,184,0.4)] text-center transition-all duration-500 ${
+        className={`relative max-w-lg w-full bg-[#FFFDF9] rounded-[28px] sm:rounded-[32px] p-5 sm:p-10 border-2 border-[#F4A6B8]/50 shadow-[0_18px_45px_-10px_rgba(244,166,184,0.4)] text-center transition-all duration-500 break-words ${
           isUntying ? 'scale-105 opacity-0 -translate-y-4' : 'scale-100 opacity-100'
         }`}
       >
@@ -1031,7 +1032,7 @@ const Chapter1Welcome: React.FC<{
         {/* Headline */}
         <h1
           style={{ fontFamily: "'Fredoka', sans-serif" }}
-          className="text-2xl sm:text-4xl font-bold text-[#4A353B] leading-tight mb-4"
+          className="text-2xl sm:text-4xl font-bold text-[#4A353B] leading-tight mb-4 break-words"
         >
           {config.welcome.headline}
         </h1>
@@ -1165,7 +1166,7 @@ const Chapter2Letter: React.FC<{
 
       {/* STEP 3: Expanded Letter Reading View */}
       {step === 'reading' && (
-        <div className="relative max-w-xl w-full bg-[#FFFDF9] rounded-3xl p-6 sm:p-10 border-2 border-[#F4A6B8]/50 shadow-[0_20px_50px_rgba(244,166,184,0.32)] animate-fadeIn">
+        <div className="relative max-w-xl w-full bg-[#FFFDF9] rounded-2xl sm:rounded-3xl p-5 sm:p-10 border-2 border-[#F4A6B8]/50 shadow-[0_20px_50px_rgba(244,166,184,0.32)] animate-fadeIn break-words">
           <WashiTape color="butter" className="absolute -top-3 left-8 -rotate-3" />
           <WashiTape color="lavender" className="absolute -top-3 right-8 rotate-3" />
 
@@ -1356,11 +1357,11 @@ const Chapter3Memories: React.FC<{
       {/* Lightbox Modal */}
       {activeMemory && (
         <div
-          className="fixed inset-0 z-50 bg-[#4A353B]/60 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-[#4A353B]/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4"
           onClick={() => setActiveMemory(null)}
         >
           <div
-            className="relative max-w-lg w-full bg-[#FFFDF9] rounded-3xl p-5 sm:p-7 border-2 border-[#F4A6B8] shadow-2xl animate-fadeIn"
+            className="relative max-w-lg w-full max-h-[92vh] overflow-y-auto bg-[#FFFDF9] rounded-3xl p-4 sm:p-7 border-2 border-[#F4A6B8] shadow-2xl animate-fadeIn custom-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -2059,17 +2060,18 @@ const Chapter6FinalSurprise: React.FC<{
             )}
           </div>
 
-          {/* Featured Special Polaroid Frame */}
-          <div className="relative max-w-md mx-auto bg-white p-4 pb-6 rounded-3xl border-2 border-[#F4A6B8]/50 shadow-md my-6">
-            <WashiTape color="pink" className="absolute -top-3 left-1/2 -translate-x-1/2" />
-            <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-[#FFF0F3] mb-3">
-              <SmartMediaView
-                src={config.finalSurprise?.featuredMedia?.src || ''}
-                title={config.herName}
-                mediaType={config.finalSurprise?.featuredMedia?.type || 'image'}
-                illustrationType="smile"
-              />
-            </div>
+            {/* Featured Special Polaroid Frame */}
+            <div className="relative max-w-md mx-auto bg-white p-4 pb-6 rounded-3xl border-2 border-[#F4A6B8]/50 shadow-md my-6">
+              <WashiTape color="pink" className="absolute -top-3 left-1/2 -translate-x-1/2" />
+              <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-[#FFF0F3] mb-3 flex items-center justify-center">
+                <SmartMediaView
+                  src={config.finalSurprise?.featuredMedia?.src || ''}
+                  title={config.herName}
+                  mediaType={config.finalSurprise?.featuredMedia?.type || 'image'}
+                  illustrationType="smile"
+                  fit="contain"
+                />
+              </div>
             <p
               style={{ fontFamily: "'Caveat', cursive" }}
               className="text-xl text-[#4A353B] font-bold"
@@ -2295,7 +2297,11 @@ export function App() {
   const navigateToChapter = useCallback((chapter: ChapterId) => {
     setCurrentChapter(chapter);
     setUnlockedChapters((prev) => (prev.includes(chapter) ? prev : [...prev, chapter]));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch {
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   // Sync audio playback between HTML5 Audio (if custom MP3 exists) and Web Audio API Music Box fallback
@@ -2530,7 +2536,7 @@ export function App() {
       </main>
 
       {/* Bottom Chapter Quick Switcher Footer */}
-      <footer className="py-4 px-4 text-center text-[11px] text-[#8A6F77] border-t border-[#F4A6B8]/20 bg-[#FFFDF9]/70">
+      <footer className="py-4 px-3 sm:px-4 pb-24 sm:pb-6 text-center text-xs text-[#8A6F77] border-t border-[#F4A6B8]/20 bg-[#FFFDF9]/85 backdrop-blur-xs">
         <div className="max-w-xl mx-auto flex items-center justify-between gap-2">
           <button
             type="button"
@@ -2539,12 +2545,12 @@ export function App() {
               currentChapter > 1 &&
               navigateToChapter((currentChapter - 1) as ChapterId)
             }
-            className="px-3 py-1 rounded-full bg-white border border-[#F4A6B8]/40 text-[#4A353B] disabled:opacity-30 flex items-center gap-1 cursor-pointer"
+            className="px-3.5 py-1.5 rounded-full bg-white border border-[#F4A6B8]/40 text-[#4A353B] font-semibold text-xs disabled:opacity-30 flex items-center gap-1 cursor-pointer shrink-0 shadow-2xs hover:bg-[#FFF0F3]"
           >
             <ChevronLeft className="w-3.5 h-3.5" /> Prev
           </button>
 
-          <span>
+          <span className="text-[11px] sm:text-xs truncate">
             Made with 💖 for <strong>{config.herName}</strong> • Chapter {currentChapter} of 6
           </span>
 
@@ -2555,7 +2561,7 @@ export function App() {
               currentChapter < 6 &&
               navigateToChapter((currentChapter + 1) as ChapterId)
             }
-            className="px-3 py-1 rounded-full bg-white border border-[#F4A6B8]/40 text-[#4A353B] disabled:opacity-30 flex items-center gap-1 cursor-pointer"
+            className="px-3.5 py-1.5 rounded-full bg-white border border-[#F4A6B8]/40 text-[#4A353B] font-semibold text-xs disabled:opacity-30 flex items-center gap-1 cursor-pointer shrink-0 shadow-2xs hover:bg-[#FFF0F3]"
           >
             Next <ChevronRight className="w-3.5 h-3.5" />
           </button>
