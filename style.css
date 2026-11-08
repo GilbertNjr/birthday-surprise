@@ -4,12 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Butter-smooth scrolling & cross-device typography resets */
+/* Butter-smooth vertical scrolling & cross-device typography resets */
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overflow-x: hidden;
 }
 
 body {
@@ -20,12 +19,17 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: #FFFDF9;
   color: #4A353B;
-  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  overflow-x: clip;
 }
 
 /* Remove tap blue/gray highlights on mobile touches */
@@ -45,8 +49,8 @@ select,
 
 /* Delicate Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {

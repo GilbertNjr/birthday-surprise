@@ -2386,7 +2386,7 @@ export function App() {
         backgroundImage: 'radial-gradient(rgba(244, 166, 184, 0.35) 1.3px, transparent 1.3px)',
         backgroundSize: '22px 22px',
       }}
-      className="min-h-screen text-[#4A353B] flex flex-col justify-between relative overflow-x-hidden"
+      className="min-h-screen w-full text-[#4A353B] flex flex-col justify-between relative"
     >
       {/* Load Google Fonts: Fredoka, Plus Jakarta Sans, Caveat */}
       <link
