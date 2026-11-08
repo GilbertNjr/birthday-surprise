@@ -123,9 +123,9 @@ export const initialBirthdayConfig: BirthdayConfig = {
   birthdayDate: 'Hari Spesialmu ✨',
 
   music: {
-    title: 'Sweet Music Box Lullaby (Our Song)',
-    artist: 'Special Birthday Melody',
-    src: '/assets/music/birthday-song.mp3', // Otomatis fallback ke synthesizer music box lembut jika file MP3 belum dimasukkan
+    title: 'Happy Birthday Melody 🎵',
+    artist: 'Our Special Song',
+    src: '/assets/music/birthday-song.mp3',
   },
 
   welcome: {
@@ -368,7 +368,7 @@ export const initialBirthdayConfig: BirthdayConfig = {
     mainHeadline: 'Happy Birthday, My Favorite Person! 🎂💖',
     featuredMedia: {
       type: 'image',
-      src: '', // Isi dengan '/assets/images/gallery/final-special.jpg' atau upload langsung di tombol kustomisasi
+      src: '/assets/images/gallery/final-special.jpg',
       caption: 'Terima kasih telah menjadi bagian paling indah dalam hidupku ✨',
     },
     emotionalMessage: [
@@ -2268,23 +2268,7 @@ const CustomizationDrawer: React.FC<{
             </button>
           </div>
 
-          {/* Folder Structure Guide */}
-          <div className="pt-4 border-t border-dashed border-[#F4A6B8]/40">
-            <p className="font-bold text-[#4A353B] mb-1.5">
-              📁 Panduan Struktur Folder Aset Permanen:
-            </p>
-            <pre className="p-3 rounded-xl bg-[#4A353B] text-[#FFFDF9] text-[11px] overflow-x-auto leading-relaxed">
-{`public/
-└── assets/
-    ├── images/
-    │   ├── memories/photo-1.jpg
-    │   └── gallery/final-special.jpg
-    ├── videos/
-    │   └── memory-clip.mp4
-    └── music/
-        └── birthday-song.mp3`}
-            </pre>
-          </div>
+
         </div>
       </div>
     </div>
@@ -2305,7 +2289,7 @@ export function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
-  const [customAudioUrl, setCustomAudioUrl] = useState<string>('');
+  const [customAudioUrl, setCustomAudioUrl] = useState<string>(initialBirthdayConfig.music.src || '');
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const navigateToChapter = useCallback((chapter: ChapterId) => {
